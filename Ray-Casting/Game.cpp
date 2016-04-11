@@ -12,7 +12,7 @@ using std::endl;
 
 Game::Game()
 :_window(sf::VideoMode(800,600), "test"),
-	_rcEngine(6),		//le paramètre donne la précision de moteur de ray-casting
+	_rcEngine(6),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
 	_player(),
 
 	_isMovingUp(false),

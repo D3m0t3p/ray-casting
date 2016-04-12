@@ -173,8 +173,8 @@ void Game::render(){
 }
 
 void Game::test(){
-	
-		_rcEngine.rayCasting(_player.position, _player.angle, _labyrinth,true);
+	std::cout<<"player angle: "<<_player.angle<<'\n';
+	std::cout<< _rcEngine.rayCasting(_player.position, _player.angle, _labyrinth)<<'\n';
 	
 	
 	//cout << _player.position.x/_labyrinth.size()<< " | "<<_player.position.y/_labyrinth.at(1).size()<<endl;;

@@ -149,7 +149,7 @@ void Game::render(){
 	auto sizeWin = _window.getSize();
 	int barCount{1};
 	
-	for (int i= (_player.angle - 30) ; i<precision + _player.angle; ++i) {
+	for (int i= (_player.angle - 30) ; i <30+ _player.angle; ++i) {
 		
 		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth);
 		

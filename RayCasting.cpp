@@ -47,7 +47,7 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 			
 			x += 2*cosAngle;
 			y += 2*sinAngle;
-			d+=0.5;
+			d = sqrt(x*x + y*y);
 			
 			
 		} catch (std::out_of_range& ec) {

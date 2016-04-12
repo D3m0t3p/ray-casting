@@ -75,7 +75,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	labFile.close();
 	
 }
-void show(std::vector<std::vector<int>>& labyrinth){
+void show(const std::vector<std::vector<int>>& labyrinth){
 	
 	for(auto& i:labyrinth){
 		for(auto&j :i){

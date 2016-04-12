@@ -23,7 +23,7 @@ public:	//function
 	Player(const sf::Vector2i& startPosition);
 	Player(const int x, const int y);
 	
-	void move(float distanceX, float distanceY){		//inline pour de optimiser (peu etre)
+	void move(float distanceX, float distanceY){		
 		position.x +=  distanceX * cosf(angle*3.14/180);
 		position.y +=  distanceY * sinf(angle*3.14/180);
 	}

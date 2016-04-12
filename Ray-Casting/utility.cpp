@@ -43,6 +43,22 @@ enum class g_TypeOfBlock{
 };
 
 void loadFromFile(std::vector<std::vector<int>>& labyrinth){
+	
+	/*
+	 
+	 format :
+	 
+	 1,1,1,1,1,1,1,1
+	 1,0,0,0,0,0,0,1
+	 1,0,0,0,0,0,0,1
+	 1,0,0,0,0,0,0,1
+	 1,0,0,0,0,0,0,1
+	 1,0,0,0,0,0,0,1
+	 1,1,1,1,1,1,1,1
+	 1 = mur
+	 
+	 */
+	
 		std::ifstream labFile{};
 		labFile.open("labyrinth.txt");
 		std::string line{};

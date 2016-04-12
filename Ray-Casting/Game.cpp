@@ -78,12 +78,11 @@ void Game::processEvent(){
 	
 }
 
-//multiplie the time betwen each frame to the speed to give a distance
-//the distance (x and y) are passed to the move() member function of the player to set the new position
+
 
 void Game::update(sf::Time deltaTime){
 	
-	
+	//utilisation de la trigo car le monde est en 3D on peut se déplacer partout en allant tout droit et en changeant le regard
 	sf::Vector2f movement{0.0f, 0.0f};
 	
 	if(_isMovingUp){									//UP
@@ -100,13 +99,6 @@ void Game::update(sf::Time deltaTime){
 	
 	
 	
-//	if(_isMovingLeft){									//LEFT
-//		movement.x -= _player.speed;
-//	}
-//	
-//	if(_isMovingRight){									//RIGHT
-//		movement.x += _player.speed;
-//	}
 	
 	_player.move(movement.x * deltaTime.asSeconds(), movement.y * deltaTime.asSeconds());
 	//std::cout << _rcEngine.rayCasting(_player.position, _player.angle, _labyrinth)<<std::endl;
@@ -147,15 +139,13 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed){
 void Game::handleMouseInput(sf::Event& event){
 	if (event.type == sf::Event::MouseMoved) {
 		
-		//cout<<((event.mouseMove.x*100)/_window.getSize().x)-60;
-		
 	}
 }
 
 
 void Game::render(){
 	_window.clear();
-	int precision{180};		//60°
+	int precision{60};		//60°
 	auto sizeWin = _window.getSize();
 	int barCount{1};
 	
@@ -166,11 +156,11 @@ void Game::render(){
 		
 		if(distance == 0)
 			distance +=1;
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/precision , (64/distance) * 692 )};	//cstr take size as arg
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/precision , (64/distance) * 692 )};	//cstr prends la taille de l'objet comme argument
 		
 		/*
 		 
-		 the 692 is the distance from player to projection plane
+		 le 692 est la distance du joueur jusque au plan de projection
 		 
 		 */		
 		

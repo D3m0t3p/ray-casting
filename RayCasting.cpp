@@ -30,10 +30,10 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 	int x = static_cast<int>(playerPosition.x);
 	int y = floor(playerPosition.y);
 	float d{0.0f};
-	angle = 360 - angle;
-	angle = angle*_PI/180;
+	//angle = 360 - angle;
+	angle = angle*_PI/180; 
 	float cosAngle = cosf(angle);
-	float sinAngle = sinf( angle);
+	float sinAngle = -sinf(angle);
 	
 
 	

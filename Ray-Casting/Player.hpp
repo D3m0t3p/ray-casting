@@ -25,7 +25,7 @@ public:	//function
 	
 	void move(float distanceX, float distanceY){		
 		position.x +=  distanceX * cosf(angle*3.14/180);
-		position.y +=  distanceY * sinf(angle*3.14/180);
+		position.y -=  distanceY * sinf(angle*3.14/180); // on met le '-' car les axes sont inversé ( en bas = y augmente)
 	}
 	
 

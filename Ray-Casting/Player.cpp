@@ -9,7 +9,7 @@
 Player::Player():
 	position(384,384),
 	speed(50.0),
-	angle(90)
+	angle(270)
 
 {}
 

@@ -128,7 +128,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed){
 	
 	
 	if(key == sf::Keyboard::P){
-		std::cout << _player.position.x <<" | "<<_player.position.y<<"\n";
+		std::cout << floor(_player.position.x/64) <<" | "<<floor(_player.position.y/64)<<"\n";
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T))
 		test();
@@ -149,18 +149,18 @@ void Game::render(){
 	auto sizeWin = _window.getSize();
 	int barCount{1};
 	
-	for (int i= (_player.angle - 30) ; i <30+ _player.angle; ++i) {
+	for (float i= (_player.angle - 30) ; i <30+ _player.angle; i++) {
 		
 		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth);
 		
 		
 		if(distance == 0)
 			distance +=1;
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/precision , (64/distance) * 692 )};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/precision , (64/distance) * 692.82 )};	//cstr prends la taille de l'objet comme argument
 		
 		/*
 		 
-		 le 692 est la distance du joueur jusque au plan de projection definit comme
+		 le 692 est la distance du joueur jusque au plan de projection definit comme win.x/tanj(30)
 		 
 		 */		
 		
@@ -173,7 +173,6 @@ void Game::render(){
 }
 
 void Game::test(){
-	std::cout<<"player angle: "<<_player.angle<<'\n';
 	std::cout<< _rcEngine.rayCasting(_player.position, _player.angle, _labyrinth)<<'\n';
 	
 	

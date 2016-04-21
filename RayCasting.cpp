@@ -27,8 +27,8 @@ RayCasting::RayCasting(int precisionOfTables)
 //retourn la distance jusque au mur
 
 float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,bool  wantPlaceInLab) const{
-	int x = static_cast<int>(playerPosition.x);
-	int y = floor(playerPosition.y);
+	float x = playerPosition.x;
+	float y = playerPosition.y;
 	float d{0.0f};
 	//angle = 360 - angle;
 	angle = angle*_PI/180; 
@@ -47,7 +47,7 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 			
 			x += 2*cosAngle;
 			y += 2*sinAngle;
-			d += 2;//should use x+y ?
+			d += 2;		//simplification de l'equation de pythagor
 			
 			
 		} catch (std::out_of_range& ec) {

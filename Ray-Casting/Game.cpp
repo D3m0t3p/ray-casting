@@ -36,7 +36,7 @@ Game::Game()
 void Game::run(){
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time frameTime = sf::seconds((1./60));
+	const sf::Time frameTime = sf::seconds(static_cast<float>(1./60));
 	while (_window.isOpen()){
 		
 		processEvent();
@@ -145,18 +145,20 @@ void Game::handleMouseInput(sf::Event& event){
 
 void Game::render(){
 	_window.clear();
-	int precision{60};		//60°
 	auto sizeWin = _window.getSize();
 	int barCount{1};
+	unsigned int nbRect{80};
 	
-	for (float i= (_player.angle - 30) ; i <30+ _player.angle; i++) {
+	
+	for (float i= _player.angle - 30 ; i < _player.angle + 30; i+= 60.0/nbRect) {
 		
 		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth);
-		
+		//distance = distance * cosf(i - _player.angle);
 		
 		if(distance == 0)
 			distance +=1;
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/precision , (64/distance) * 692.82 )};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * 692.82 )};	//cstr prends la taille de l'objet comme argument
+		
 		
 		/*
 		 
@@ -164,7 +166,7 @@ void Game::render(){
 		 
 		 */		
 		
-		bar.setPosition(barCount* sizeWin.x/60, sizeWin.y/2 - bar.getSize().y/2);
+		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
 		_window.draw(bar);
 		++barCount;
 	}

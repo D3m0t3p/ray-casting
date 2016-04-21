@@ -62,13 +62,13 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 		std::ifstream labFile{};
 		labFile.open("labyrinth.txt");
 		std::string line{};
-		int count{0};
+		size_t count{0};
 		if(labFile.is_open()){
 			
 			while (std::getline(labFile,line)) {
 				labyrinth.push_back(std::vector<int>());	//nouvelle ligne 2d
 				
-				for (int i{0}; i<line.size(); i+=2) {	//saute le caractère ',' et va au prochain nombre
+				for (size_t i{0}; i<line.size(); i+=2) {	//saute le caractère ',' et va au prochain nombre
 					
 					if(line.at(i)== '1')					//utilise  '1' car .at() retourn un char et ne peux pas etre comparé avec int
 					{

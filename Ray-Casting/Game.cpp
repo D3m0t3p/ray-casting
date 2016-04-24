@@ -11,7 +11,7 @@ using std::cout;
 using std::endl;
 
 Game::Game()
-:_window(sf::VideoMode(800,600), "test"),
+:
 	_rcEngine(6),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
 	_player(),
 
@@ -21,12 +21,11 @@ Game::Game()
 	_isMovingLeft(false),
 	_angleOfTeste(90.0) //float
 {
-		//_window.setVerticalSyncEnabled(true);
+	sf::ContextSettings settings;
+	settings.antialiasingLevel =8;
+	
+	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	loadFromFile(_labyrinth);
-	//fromIntToEnum(_labyrinth, _tabEnum);
-	
-	
-	
 	
 	
 }
@@ -122,16 +121,16 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed){
 	
 	//#########angle##############
 	if(key ==sf::Keyboard::Left)
-		_player.angle -= 1;
+		_player.angle += 3;
 	if(key ==sf::Keyboard::Right)
-		_player.angle += 1;
+		_player.angle -= 3;
 	
 	
 	if(key == sf::Keyboard::P){
 		std::cout << floor(_player.position.x/64) <<" | "<<floor(_player.position.y/64)<<"\n";
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::T))
-		test();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+		reload();
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C))
 		std::cout <<"\n\n\n\n\n\n\n\n\n";
 
@@ -146,9 +145,10 @@ void Game::handleMouseInput(sf::Event& event){
 void Game::render(){
 	_window.clear();
 	auto sizeWin = _window.getSize();
-	int barCount{1};
-	unsigned int nbRect{80};
-	
+	unsigned int barCount{1};
+	unsigned int nbRect{400};
+	renderSky();
+	//renderFloor();
 	
 	for (float i= _player.angle - 30 ; i < _player.angle + 30; i+= 60.0/nbRect) {
 		
@@ -174,12 +174,75 @@ void Game::render(){
 	
 }
 
-void Game::test(){
-	std::cout<< _rcEngine.rayCasting(_player.position, _player.angle -30, _labyrinth)<<'\n';
-	std::cout << _rcEngine.rayCasting(_player.position, _player.angle, _labyrinth)<<'\n';
-	std::cout << _rcEngine.rayCasting(_player.position, _player.angle + 30, _labyrinth)<<'\n';
+void Game::reload(){
+	_labyrinth.clear();
+
+	loadFromFile(_labyrinth);
+}
+
+void Game::renderSky(){
+	/*
+	 format du vertex array;
+	 
+	 1			2
+	 
+	 
+	 0			3
+	 
+	 */
+	
+	sf::VertexArray sky{sf::Quads,4};
+	sky[0].position = sf::Vector2<float>(0,_window.getSize().y/2);
+	sky[0].color = sf::Color(20,20,255);
+
+	sky[1].position = sf::Vector2f(0,0);
+	sky[1].color = sf::Color(0,0,255,180);
+
+
+	sky[2].position = sf::Vector2f(_window.getSize().x,0);
+	sky[2].color = sf::Color(0,0,255,180);
+
+
+	sky[3].position = sf::Vector2f(_window.getSize().x, _window.getSize().y/2);
+	sky[3].color = sf::Color(20,20,255);
 
 	
 	
-	//cout << _player.position.x/_labyrinth.size()<< " | "<<_player.position.y/_labyrinth.at(1).size()<<endl;;
+	
+	_window.draw(sky);
+	
 }
+
+void Game::renderFloor(){
+	/*
+	 
+	 format est le même que dans void Game::renderSky();
+	 
+	 
+	 */
+	
+	sf::VertexArray floor{sf::Quads,4};
+	
+	floor[0].position = sf::Vector2<float>(0,_window.getSize().y);
+	floor[0].color = sf::Color::Red;
+	
+	
+	floor[1].position = sf::Vector2f(0,_window.getSize().y/2);
+	floor[1].color = sf::Color::Red;
+
+	
+	
+	floor[2].position = sf::Vector2f(_window.getSize().x,_window.getSize().y/2);
+	floor[2].color = sf::Color::Red;
+
+	
+	
+	floor[3].position = sf::Vector2f(_window.getSize().x, _window.getSize().y);
+	floor[3].color = sf::Color::Red;
+
+	
+	
+	
+	_window.draw(floor);
+}
+

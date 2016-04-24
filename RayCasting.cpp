@@ -8,8 +8,7 @@
 #include "RayCasting.hpp"
 #include <cmath>
 #include <iostream>
-extern int xMax;															//definit dans utility.cpp
-extern int yMax;															//pareil
+															//definit dans utility.cpp
 extern int sizeOfBlock;														//pareil
 extern const int g_preMakeLabSize{10};										//pareil
 extern std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeLab; //pareil

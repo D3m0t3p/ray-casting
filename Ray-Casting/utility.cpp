@@ -14,9 +14,6 @@
 const int g_preMakeLabSize{11};
 
 int sizeOfBlock{64};
-int xMax = g_preMakeLabSize * sizeOfBlock;
-int yMax = g_preMakeLabSize * sizeOfBlock;
-
 //std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeLab {
 //	
 //	{
@@ -55,7 +52,8 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	 1,0,0,0,0,0,0,1
 	 1,0,0,0,0,0,0,1
 	 1,1,1,1,1,1,1,1
-	 1 = mur
+	 
+	 1 = wall
 	 
 	 */
 	
@@ -126,8 +124,6 @@ void fromIntToEnum(std::vector<std::vector<int>> &tabBinary, std::vector<std::ve
 	}
 	
 }
-
-//IMPLEMENT LE LOAD FROM FILE AVEC LE GETLINE
 
 
 

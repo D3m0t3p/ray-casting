@@ -34,10 +34,12 @@ private:						//fontion membre
 	void processEvent();
 	void update(sf::Time deltaTime);
 	void render();
-	void test();
+	void reload();
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 	void handleMouseInput(sf::Event& event);
 	void clearConsole();
+	void renderSky();
+	void renderFloor();
 	
 	
 	

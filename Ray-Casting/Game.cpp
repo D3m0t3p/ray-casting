@@ -35,7 +35,7 @@ Game::Game()
 void Game::run(){
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time frameTime = sf::seconds(static_cast<float>(1./60));
+	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
 	while (_window.isOpen()){
 		
 		processEvent();
@@ -84,23 +84,32 @@ void Game::update(sf::Time deltaTime){
 	//utilisation de la trigo car le monde est en 3D on peut se déplacer partout en allant tout droit et en changeant le regard
 	sf::Vector2f movement{0.0f, 0.0f};
 	
-	if(_isMovingUp){									//UP
-		movement.y += _player.speed*sinf(2*3.14 - _player.angle*3.14/180);
-		movement.x += _player.speed*cosf(2*3.14 - _player.angle*3.14/180);
-	}
-	
-	
-	
 	if(_isMovingDown){									//DOWN
-		movement.y -= _player.speed*sinf(- _player.angle*3.14/180);
-		movement.x -= _player.speed*cosf(- _player.angle*3.14/180);
+		movement.y -= _player.speed*sinf(_player.angle*3.14/180);	//met - car sinus
+		movement.x += _player.speed*cosf(_player.angle*3.14/180);
 	}
 	
+	
+	
+	if(_isMovingUp){									//UP
+		movement.y += _player.speed*sinf(_player.angle*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
+		movement.x -= _player.speed*cosf(_player.angle*3.14/180);
+	}
+	
+	if(_isMovingLeft){
+		//UP
+		movement.y += _player.speed*sinf((_player.angle+90)*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
+		movement.x -= _player.speed*cosf((_player.angle+90)*3.14/180);
+	}
+	if(_isMovingRight){
+		//UP
+		movement.y += _player.speed*sinf((_player.angle-90)*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
+		movement.x -= _player.speed*cosf((_player.angle-90)*3.14/180);
+	}
 	
 	
 	
 	_player.move(movement.x * deltaTime.asSeconds(), movement.y * deltaTime.asSeconds());
-	//std::cout << _rcEngine.rayCasting(_player.position, _player.angle, _labyrinth)<<std::endl;
 	
 
 }
@@ -120,10 +129,13 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 		_isMovingRight = isPressed;
 	
 	//#########angle##############
-	if(key ==sf::Keyboard::Left)
+	if(key == sf::Keyboard::Left)
 		_player.angle += 3;
-	if(key ==sf::Keyboard::Right)
+	if(key == sf::Keyboard::Right)
 		_player.angle -= 3;
+	if(key == sf::Keyboard::Up)
+		
+
 	
 	
 	if(key == sf::Keyboard::P){
@@ -131,8 +143,7 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
 		reload();
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C))
-		std::cout <<"\n\n\n\n\n\n\n\n\n";
+	
 
 }
 void Game::handleMouseInput(sf::Event& event){

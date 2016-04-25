@@ -10,8 +10,6 @@
 #include "Player.hpp"
 
 
-const unsigned int size{100};
-const unsigned int prorata{30};
 
 class Game{
 
@@ -25,7 +23,6 @@ class Game{
 	bool _isMovingLeft;
 	float _angleOfTeste;
 	
-	std::vector<std::vector<g_TypeOfBlock>> _tabEnum;
 	std::vector<std::vector<int>> _labyrinth;
 	
 	

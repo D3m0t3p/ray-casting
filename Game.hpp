@@ -21,7 +21,7 @@ class Game{
 	bool _isMovingDown;
 	bool _isMovingRight;
 	bool _isMovingLeft;
-	float _angleOfTeste;
+	
 	
 	std::vector<std::vector<int>> _labyrinth;
 	

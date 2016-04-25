@@ -18,8 +18,8 @@ Game::Game()
 	_isMovingUp(false),
 	_isMovingDown(false),
 	_isMovingRight(false),
-	_isMovingLeft(false),
-	_angleOfTeste(90.0) //float
+	_isMovingLeft(false)
+	 //float
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel =8;

@@ -35,7 +35,7 @@ private:						//fontion membre
 	void update(sf::Time deltaTime);
 	void render();
 	void reload();
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);
 	void handleMouseInput(sf::Event& event);
 	void clearConsole();
 	void renderSky();

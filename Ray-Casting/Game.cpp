@@ -61,10 +61,10 @@ void Game::processEvent(){
 				_window.close();
 				break;
 			case sf::Event::KeyPressed:
-				handlePlayerInput(event.key.code, true);
+				handleKeyboardInput(event.key.code, true);
 				break;
 			case sf::Event::KeyReleased:
-				handlePlayerInput(event.key.code, false);
+				handleKeyboardInput(event.key.code, false);
 				break;
 			case sf::Event::MouseMoved:
 				handleMouseInput(event);
@@ -107,7 +107,7 @@ void Game::update(sf::Time deltaTime){
 
 
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed){
+void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	
 	//###########movement############
 	if (key == sf::Keyboard::W)

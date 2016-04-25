@@ -41,7 +41,7 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 			if(labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) == 1){
 				if(wantPlaceInLab)
 					std::cout <<  floor(y/sizeOfBlock) <<"  "<< floor(x/sizeOfBlock)<<"\n";
-				return d;	//return distance to the wall
+				return d;	//return distance au mur
 			}
 			
 			x += 2*cosAngle;
@@ -59,7 +59,7 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 		
 	}
 	
-	return 0;	//should not be here
+	return 0;	//ne devrait jamais arriver ici car la map est entourée de mur
 }
 
 
@@ -78,16 +78,16 @@ void RayCasting::creatTable(int precision){
 		
 		
 		if(angleTab == 90){
-			//complete
+			//a complete
 		}
 		else if(angleTab ==180){
-			//complete
+			//a complete
 		}
 		else if (angleTab == 270){
-			//complete
+			//a complete
 		}
 		else if (angleTab == 360 || angleTab == 0){
-			//complete
+			//a complete
 		}
 		else{
 			

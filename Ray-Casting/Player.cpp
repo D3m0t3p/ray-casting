@@ -7,9 +7,9 @@
 #include "Player.hpp"
 
 Player::Player():
-	position(384,384),
+	position(416,416),
 	speed(50.0),
-	angle(225)
+	angle(180)
 
 {}
 

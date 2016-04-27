@@ -14,9 +14,6 @@
 const int g_preMakeLabSize{11};
 
 int sizeOfBlock{64};
-int xMax = g_preMakeLabSize * sizeOfBlock;
-int yMax = g_preMakeLabSize * sizeOfBlock;
-
 //std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeLab {
 //	
 //	{
@@ -55,20 +52,21 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	 1,0,0,0,0,0,0,1
 	 1,0,0,0,0,0,0,1
 	 1,1,1,1,1,1,1,1
-	 1 = mur
+	 
+	 1 = wall
 	 
 	 */
 	
 		std::ifstream labFile{};
 		labFile.open("labyrinth.txt");
 		std::string line{};
-		int count{0};
+		size_t count{0};
 		if(labFile.is_open()){
 			
 			while (std::getline(labFile,line)) {
 				labyrinth.push_back(std::vector<int>());	//nouvelle ligne 2d
 				
-				for (int i{0}; i<line.size(); i+=2) {	//saute le caractère ',' et va au prochain nombre
+				for (size_t i{0}; i<line.size(); i+=2) {	//saute le caractère ',' et va au prochain nombre
 					
 					if(line.at(i)== '1')					//utilise  '1' car .at() retourn un char et ne peux pas etre comparé avec int
 					{
@@ -126,8 +124,6 @@ void fromIntToEnum(std::vector<std::vector<int>> &tabBinary, std::vector<std::ve
 	}
 	
 }
-
-//IMPLEMENT LE LOAD FROM FILE AVEC LE GETLINE
 
 
 

@@ -25,12 +25,11 @@ RayCasting::RayCasting(int precisionOfTables)
 //calcule la distance depius un certaine position avec un cerain angle jusque au mur le plus proche
 //retourn la distance jusque au mur
 
-float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,bool  wantPlaceInLab) const{
+float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth) const{
 	float x = playerPosition.x;
 	float y = playerPosition.y;
 	float d{0.0f};
-	//angle = 360 - angle;
-	angle = angle*_PI/180; 
+	angle = angle*_PI/180;
 	float cosAngle = cosf(angle);
 	float sinAngle = -sinf(angle);
 	
@@ -39,8 +38,6 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 	while (true) {
 		try {
 			if(labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) == 1){
-				if(wantPlaceInLab)
-					std::cout <<  floor(y/sizeOfBlock) <<"  "<< floor(x/sizeOfBlock)<<"\n";
 				return d;	//return distance au mur
 			}
 			
@@ -50,10 +47,7 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 			
 			
 		} catch (std::out_of_range& ec) {
-			std::cout << "error Raycasting::raycasting at line "
-			<< __LINE__<<"\nerror type: "<<ec.what()<<"(out of range)\n\n";
-			playerPosition.x = 100.0;
-			playerPosition.y = 100.0;
+
 			return EXIT_FAILURE;
 		}
 		

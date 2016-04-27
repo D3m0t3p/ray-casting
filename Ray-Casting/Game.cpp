@@ -6,9 +6,6 @@
 //
 #include "Game.hpp"
 #include "utility.hpp"
-#include <iostream>
-using std::cout;
-using std::endl;
 
 Game::Game()
 :
@@ -26,7 +23,6 @@ Game::Game()
 	
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	loadFromFile(_labyrinth);
-	cout<<"test";
 	
 }
 
@@ -139,7 +135,6 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	
 	
 	if(key == sf::Keyboard::P){
-		std::cout << floor(_player.position.x/64) <<" | "<<floor(_player.position.y/64)<<"\n";
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
 		reload();
@@ -169,7 +164,7 @@ void Game::render(){
 		
 		if(distance == 0)
 			distance +=1;
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * 692 )};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * 692)};	//cstr prends la taille de l'objet comme argument
 		
 		
 		/*

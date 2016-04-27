@@ -86,7 +86,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	
 	show(labyrinth);
 	
-	labFile.close();
+	//labFile.close();
 	
 }
 void show(const std::vector<std::vector<int>>& labyrinth){
@@ -100,13 +100,12 @@ void show(const std::vector<std::vector<int>>& labyrinth){
 }
 
 void fromIntToEnum(std::vector<std::vector<int>> &tabBinary, std::vector<std::vector<g_TypeOfBlock>> &tabEnum){
-	std::cout <<tabBinary.size()<<std::endl<<"\n\n";
 	for(int i{0};i<tabBinary.size();++i){								//i = std::vector<int>
 		
 		
 		tabEnum.push_back( std::vector<g_TypeOfBlock>() );	//new line
 		
-		for(int j{0}; j< tabBinary.at(i).size(); ++j){
+		for(unsigned long j{0}; j< tabBinary.at(i).size(); ++j){
 			if(j == 1){
 				tabEnum.at(i).push_back(g_TypeOfBlock::WALL);
 				
@@ -115,50 +114,14 @@ void fromIntToEnum(std::vector<std::vector<int>> &tabBinary, std::vector<std::ve
 			else if (j == 0){
 				tabEnum.at(i).push_back(g_TypeOfBlock::AIR);
 				if(tabEnum.at(i).at(j) == g_TypeOfBlock::AIR)
-					std::cout <<j;
+					;
 
 			}
-			else std::cout <<"  ";
+			else{
+				
+			}
 		}
-		std::cout <<std::endl;
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -15,7 +15,8 @@ Game::Game()
 	_isMovingUp(false),
 	_isMovingDown(false),
 	_isMovingRight(false),
-	_isMovingLeft(false)
+	_isMovingLeft(false),
+	_lastPosMouse()
 	 //float
 {
 	sf::ContextSettings settings;
@@ -23,6 +24,8 @@ Game::Game()
 	
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	loadFromFile(_labyrinth);
+	_lastPosMouse = sf::Mouse::getPosition(_window);
+	
 	
 }
 
@@ -142,10 +145,13 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 
 }
 void Game::handleMouseInput(sf::Event& event){
-	if (event.type == sf::Event::MouseMoved) {
-		auto pos = sf::Mouse::getPosition(_window);
-		
-	}
+//	if (event.type == sf::Event::MouseMoved) {
+//		auto pos = sf::Mouse::getPosition(_window);
+//		int diff = _lastPosMouse.x - pos.x;
+//		_player.angle += diff*60/static_cast<int>(_window.getSize().x)*2;
+//		_lastPosMouse = pos;
+//		
+//	}
 }
 
 
@@ -164,16 +170,17 @@ void Game::render(){
 		
 		if(distance == 0)
 			distance +=1;
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * 692)};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * _window.getSize().x/(2*tanf(3.1415*30/180)))};	//cstr prends la taille de l'objet comme argument
 		
 		
 		/*
 		 
-		 le 692 est la distance du joueur jusque au plan de projection definit comme win.x/tanj(30)
+		 le 692 est la distance du joueur jusque au plan de projection definit comme win.x/2*tanj(30)
 		 
 		 */		
 		
 		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
+		bar.setFillColor(sf::Color(floor(255/(distance/64)),0,0));
 		_window.draw(bar);
 		++barCount;
 	}

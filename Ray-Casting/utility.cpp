@@ -39,7 +39,7 @@ enum class g_TypeOfBlock{
 	
 };
 
-void loadFromFile(std::vector<std::vector<int>>& labyrinth){
+void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 	
 	/*
 	 
@@ -58,7 +58,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	 */
 	
 		std::ifstream labFile{};
-		labFile.open("labyrinth.txt");
+		labFile.open(labName);
 		std::string line{};
 		size_t count{0};
 		if(labFile.is_open()){

@@ -22,7 +22,7 @@ class Game{
 	bool _isMovingRight;
 	bool _isMovingLeft;
 	
-	
+	sf::Vector2i _lastPosMouse;
 	
 	std::vector<std::vector<int>> _labyrinth;
 	

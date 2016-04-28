@@ -77,10 +77,6 @@ void Game::update(const sf::Time &deltaTime){
 	
 	//utilisation de la trigo car le monde est en 3D on peut se déplacer partout en allant tout droit et en changeant le regard
 	
-	
-	
-	
-	
 	_player.move(deltaTime);
 	
 
@@ -91,28 +87,24 @@ void Game::update(const sf::Time &deltaTime){
 void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	
 	//###########movement############
-	if (key == sf::Keyboard::W)
-		_player.isMovingUp = isPressed;
-	if (key == sf::Keyboard::S)
-		_player.isMovingDown = isPressed;
-	if (key == sf::Keyboard::A)
-		_player.isMovingLeft = isPressed;
-	if (key == sf::Keyboard::D)
-		_player.isMovingRight = isPressed;
-	
-	//#########angle##############
-	if(key == sf::Keyboard::Left)
-		_player.angle += 3;
-	if(key == sf::Keyboard::Right)
-		_player.angle -= 3;
-	if(key == sf::Keyboard::Up)
-		
+	if (key == sf::Keyboard::W) {_player.isMovingUp = isPressed;}
+	if (key == sf::Keyboard::S) {_player.isMovingDown = isPressed;}
+	if (key == sf::Keyboard::A) {_player.isMovingLeft = isPressed;}
+	if (key == sf::Keyboard::D) {_player.isMovingRight = isPressed;}
 
+	//#########angle##############
+	if(key == sf::Keyboard::Left){
+		_player.angle += 3;
+	}
+	if(key == sf::Keyboard::Right){
+		_player.angle -= 3;
+	}
+	if(key == sf::Keyboard::Up)		_player.speed++;
+	if(key == sf::Keyboard::Down)	_player.speed--;
 	
-	
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+	if(key == sf::Keyboard::L){
 		reload();
+	}
 	
 
 }
@@ -160,11 +152,22 @@ void Game::render(){
 	
 }
 
-void Game::reload(){
-	_labyrinth.clear();
 
+
+
+
+void Game::reload(){
+	std::cout <<"reload";
+	_labyrinth.clear();
 	loadFromFile(_labyrinth);
+	
 }
+
+
+
+
+
+
 
 void Game::renderSky(){
 	/*

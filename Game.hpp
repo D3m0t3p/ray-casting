@@ -23,6 +23,7 @@ class Game{
 	bool _isMovingLeft;
 	
 	
+	
 	std::vector<std::vector<int>> _labyrinth;
 	
 	
@@ -34,7 +35,6 @@ private:						//fontion membre
 	void reload();
 	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);
 	void handleMouseInput(sf::Event& event);
-	void clearConsole();
 	void renderSky();
 	void renderFloor();
 	

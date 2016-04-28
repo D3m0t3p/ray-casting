@@ -81,23 +81,23 @@ void Game::update(sf::Time deltaTime){
 	sf::Vector2f movement{0.0f, 0.0f};
 	
 	if(_isMovingDown){									//DOWN
-		movement.y -= _player.speed*sinf(_player.angle*3.14/180);	//met - car sinus
-		movement.x += _player.speed*cosf(_player.angle*3.14/180);
+		movement.y += _player.speed*sinf(_player.angle*3.14/180);	//met - car sinus
+		movement.x -= _player.speed*cosf(_player.angle*3.14/180);
 	}
 	
 	
 	
 	if(_isMovingUp){									//UP
-		movement.y += _player.speed*sinf(_player.angle*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
-		movement.x -= _player.speed*cosf(_player.angle*3.14/180);
+		movement.y -= _player.speed*sinf(_player.angle*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
+		movement.x += _player.speed*cosf(_player.angle*3.14/180);
 	}
 	
-	if(_isMovingLeft){
+	if(_isMovingRight){
 		//UP
 		movement.y += _player.speed*sinf((_player.angle+90)*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
 		movement.x -= _player.speed*cosf((_player.angle+90)*3.14/180);
 	}
-	if(_isMovingRight){
+	if(_isMovingLeft){
 		//UP
 		movement.y += _player.speed*sinf((_player.angle-90)*3.14/180);	//met + car devrait etre - mais on rajoute un - car c'est un sinus => +
 		movement.x -= _player.speed*cosf((_player.angle-90)*3.14/180);

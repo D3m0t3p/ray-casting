@@ -86,7 +86,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth){
 	
 	show(labyrinth);
 	
-	//labFile.close();
+	labFile.close();
 	
 }
 void show(const std::vector<std::vector<int>>& labyrinth){

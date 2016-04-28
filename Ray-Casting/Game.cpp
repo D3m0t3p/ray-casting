@@ -11,7 +11,8 @@ Game::Game()
 :
 	_rcEngine(6),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
 	_player(),
-	_lastPosMouse()
+	_lastPosMouse(),
+	actualLevel(1)
 	 //float
 {
 	sf::ContextSettings settings;
@@ -75,9 +76,14 @@ void Game::processEvent(){
 
 void Game::update(const sf::Time &deltaTime){
 	
-	//utilisation de la trigo car le monde est en 3D on peut se déplacer partout en allant tout droit et en changeant le regard
 	
 	_player.move(deltaTime);
+	
+	if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
+		_labyrinth.clear();
+		loadFromFile(_labyrinth,"level" +std::to_string(actualLevel));
+		actualLevel++;
+	}
 	
 
 }
@@ -128,12 +134,15 @@ void Game::render(){
 	//renderFloor();
 	
 	for (float i= _player.angle - 30 ; i < _player.angle + 30; i+= 60.0/nbRect) {
-		
-		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth);
+		int blockID;
+		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID);
 		//distance = distance * cosf(i - _player.angle);
 		
 		if(distance == 0)
 			distance +=1;
+		
+		
+		
 		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * _window.getSize().x/(2*tanf(3.1415*30/180)))};	//cstr prends la taille de l'objet comme argument
 		
 		
@@ -141,12 +150,19 @@ void Game::render(){
 		 
 		 le 692 est la distance du joueur jusque au plan de projection definit comme win.x/2*tanj(30)
 		 
-		 */		
+		 */
 		
 		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
-		bar.setFillColor(sf::Color(floor(255/(distance/64)),0,0));
+		if(blockID ==1){
+			bar.setFillColor(sf::Color(floor(255/(distance/64)),0,0));
+		}
+		else if (blockID ==2)
+			bar.setFillColor(sf::Color(255,248,220));
+		
 		_window.draw(bar);
 		++barCount;
+		
+		
 	}
 	_window.display();
 	

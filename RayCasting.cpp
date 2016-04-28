@@ -25,7 +25,7 @@ RayCasting::RayCasting(int precisionOfTables)
 //calcule la distance depius un certaine position avec un cerain angle jusque au mur le plus proche
 //retourn la distance jusque au mur
 
-float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth) const{
+float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,int &blockID) const{
 	float x = playerPosition.x;
 	float y = playerPosition.y;
 	float d{0.0f};
@@ -38,7 +38,12 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 	while (true) {
 		try {
 			if(labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) == 1){
+				blockID = 1;
 				return d;	//return distance au mur
+			}
+			else if (labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) ==2){
+				blockID = 2;
+				return d;
 			}
 			
 			x += 2*cosAngle;

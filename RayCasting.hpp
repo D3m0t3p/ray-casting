@@ -22,6 +22,6 @@ private:
 
 public:
 	RayCasting(int precisionOfTables);
-	float rayCasting(sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth)const;	//retourn la distance jusque au mur rencontré
+	float rayCasting(sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth,int &blockID)const;	//retourn la distance jusque au mur rencontré
 	
 };

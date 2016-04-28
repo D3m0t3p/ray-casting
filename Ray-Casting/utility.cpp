@@ -75,7 +75,9 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 					else if(line.at(i) == '0'){
 						labyrinth.at(count).push_back(0);
 					}
-					else{}
+					else if(line.at(i) == '2'){
+						labyrinth.at(count).push_back(2);
+					}
 					
 				}
 				++count;

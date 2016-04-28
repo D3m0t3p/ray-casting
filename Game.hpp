@@ -16,7 +16,7 @@ class Game{
 	sf::RenderWindow _window;
 	RayCasting _rcEngine;
 	Player _player;
-	
+	unsigned int actualLevel;
 	
 	sf::Vector2i _lastPosMouse;
 	

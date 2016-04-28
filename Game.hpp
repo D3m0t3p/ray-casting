@@ -17,10 +17,6 @@ class Game{
 	RayCasting _rcEngine;
 	Player _player;
 	
-	bool _isMovingUp;
-	bool _isMovingDown;
-	bool _isMovingRight;
-	bool _isMovingLeft;
 	
 	sf::Vector2i _lastPosMouse;
 	
@@ -30,7 +26,7 @@ class Game{
 	
 private:						//fontion membre
 	void processEvent();
-	void update(sf::Time deltaTime);
+	void update(const sf::Time &deltaTime);
 	void render();
 	void reload();
 	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);

@@ -15,18 +15,18 @@ public:	//var
 	sf::Vector2f position;
 	float angle;
 	float speed; //30 pixeel/s
+
+	
+	bool isMovingUp;
+	bool isMovingDown;
+	bool isMovingRight;
+	bool isMovingLeft;
+	
 	
 	
 	
 public:	//function
 	Player();
-	Player(const sf::Vector2i& startPosition);
-	Player(const int x, const int y);
-	
-	void move(float distanceX, float distanceY){		
-		position.x +=  distanceX;
-		position.y +=  distanceY; // on met le '-' car les axes sont inversé ( en bas = y augmente)
-	}
-	
+	void move(const sf::Time &deltaTime);
 
 };

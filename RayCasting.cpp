@@ -15,9 +15,9 @@ extern std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeL
 
 
 
-RayCasting::RayCasting(int precisionOfTables)
+RayCasting::RayCasting()
 {
-	creatTable(precisionOfTables);
+
 }
 
 
@@ -60,60 +60,5 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 	
 	return 0;	//ne devrait jamais arriver ici car la map est entourée de mur
 }
-
-
-//crée les sin cos et tang table pour les angles
-//sinf fonction retourn float
-//si  veut int comme retour: sin(angle)
-//il faut completer  if/  else if
-
-void RayCasting::creatTable(int precision){
-	int angleTab{0};
-	for (int i{0}; i< 360*precision; ++i) {
-		
-		angleTab = i/precision;
-		_sinTable[i] = sinf((angleTab*_PI)/180);		//_PI est définit dans raycasting.hpp
-		_cosTable[i] = cosf((angleTab*_PI)/180);
-		
-		
-		if(angleTab == 90){
-			//a complete
-		}
-		else if(angleTab ==180){
-			//a complete
-		}
-		else if (angleTab == 270){
-			//a complete
-		}
-		else if (angleTab == 360 || angleTab == 0){
-			//a complete
-		}
-		else{
-			
-		}
-		
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

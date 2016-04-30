@@ -9,7 +9,7 @@
 
 Game::Game()
 :
-	_rcEngine(6),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
+	_rcEngine(),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
 	_player(),
 	_lastPosMouse(),
 	actualLevel(1)
@@ -154,10 +154,10 @@ void Game::render(){
 		
 		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
 		if(blockID ==1){
-			bar.setFillColor(sf::Color(floor(255/(distance/64)),0,0));
+			bar.setFillColor(sf::Color(floor(1.6*255/(distance/64)),0,0));
 		}
 		else if (blockID ==2)
-			bar.setFillColor(sf::Color(255,248,220));
+			bar.setFillColor(sf::Color(255,255,0));
 		
 		_window.draw(bar);
 		++barCount;

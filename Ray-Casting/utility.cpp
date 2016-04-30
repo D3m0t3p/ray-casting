@@ -11,7 +11,6 @@
 
 //#############			the labs		#############
 
-const int g_preMakeLabSize{11};
 
 int sizeOfBlock{64};
 //std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeLab {
@@ -33,11 +32,7 @@ int sizeOfBlock{64};
 
 
 
-enum class g_TypeOfBlock{
-	WALL,
-	AIR
-	
-};
+
 
 void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 	
@@ -86,44 +81,19 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 		}
 	
 	
-	show(labyrinth);
+	//show(labyrinth);
 	
 	labFile.close();
 	
 }
-void show(const std::vector<std::vector<int>>& labyrinth){
-	
-	for(auto& i:labyrinth){
-		for(auto&j :i){
-			std::cout <<j<<" ";
-		}
-		std::cout<<std::endl;
-	}
-}
-
-void fromIntToEnum(std::vector<std::vector<int>> &tabBinary, std::vector<std::vector<g_TypeOfBlock>> &tabEnum){
-	for(int i{0};i<tabBinary.size();++i){								//i = std::vector<int>
-		
-		
-		tabEnum.push_back( std::vector<g_TypeOfBlock>() );	//new line
-		
-		for(unsigned long j{0}; j< tabBinary.at(i).size(); ++j){
-			if(j == 1){
-				tabEnum.at(i).push_back(g_TypeOfBlock::WALL);
-				
-			}
-			
-			else if (j == 0){
-				tabEnum.at(i).push_back(g_TypeOfBlock::AIR);
-				if(tabEnum.at(i).at(j) == g_TypeOfBlock::AIR)
-					;
-
-			}
-			else{
-				
-			}
-		}
-	}
-	
-}
-
+//void show(const std::vector<std::vector<int>>& labyrinth){
+//	
+//	for(auto& i:labyrinth){
+//		for(auto&j :i){
+//			std::cout <<j<<" ";
+//		}
+//		std::cout<<std::endl;
+//	}
+//}
+//
+//

@@ -18,10 +18,9 @@ private:
 	const double _PI = 3.14159265358979323846; //utilisé pour calcule dans creatTable() et passage en radian
 	
 private:
-	void creatTable(int precision);
 
 public:
-	RayCasting(int precisionOfTables);
+	RayCasting();
 	float rayCasting(sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth,int &blockID)const;	//retourn la distance jusque au mur rencontré
 	
 };

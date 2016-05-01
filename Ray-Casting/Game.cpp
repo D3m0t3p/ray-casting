@@ -31,6 +31,7 @@ Game::Game()
 
 
 void Game::run(){
+	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
@@ -78,14 +79,14 @@ void Game::processEvent(){
 void Game::update(const sf::Time &deltaTime){
 	
 	
-	_player.move(deltaTime);
 	
-	if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
-		loadNextLevel(_levelID++);
+	 if (_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.x/64)) ==2){
+		loadNextLevel(++_levelID);
 		_player.position = sf::Vector2f(100,100);
-	
+
+		std::cout <<"exit";
 	}
-	
+	_player.move(deltaTime);
 	
 	
 
@@ -111,8 +112,8 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	if(key == sf::Keyboard::Up)		_player.speed++;
 	if(key == sf::Keyboard::Down)	_player.speed--;
 	
-	if(key == sf::Keyboard::Space){
-		
+	if(key == sf::Keyboard::L){
+		loadNextLevel(_levelID++);
 	}
 	
 

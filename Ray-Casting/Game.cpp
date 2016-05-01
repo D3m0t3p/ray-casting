@@ -10,10 +10,10 @@
 
 Game::Game()
 :
-	_rcEngine(),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
-	_player()
+	_rcEngine(),
+	_player(),
+	_levelID(1)
 
-	 //float
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel =8;
@@ -80,8 +80,12 @@ void Game::update(const sf::Time &deltaTime){
 	
 	_player.move(deltaTime);
 	
-	//if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
-		
+	if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
+		loadNextLevel(_levelID++);
+		_player.position = sf::Vector2f(100,100);
+	
+	}
+	
 	
 	
 
@@ -107,8 +111,8 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	if(key == sf::Keyboard::Up)		_player.speed++;
 	if(key == sf::Keyboard::Down)	_player.speed--;
 	
-	if(key == sf::Keyboard::L){
-		reload();
+	if(key == sf::Keyboard::Space){
+		
 	}
 	
 
@@ -166,10 +170,9 @@ void Game::render(){
 
 
 
-void Game::reload(){
-	std::cout <<"reload";
+void Game::loadNextLevel(const unsigned int levelID){
 	_labyrinth.clear();
-	loadFromFile(_labyrinth);
+	loadFromFile(_labyrinth,levelID);
 	
 }
 
@@ -223,21 +226,21 @@ void Game::renderFloor(){
 	sf::VertexArray floor{sf::Quads,4};
 	
 	floor[0].position = sf::Vector2<float>(0,_window.getSize().y);
-	floor[0].color = sf::Color::Red;
+	floor[0].color = sf::Color::Green;
 	
 	
 	floor[1].position = sf::Vector2f(0,_window.getSize().y/2);
-	floor[1].color = sf::Color::Red;
+	floor[1].color = sf::Color::Green;
 
 	
 	
 	floor[2].position = sf::Vector2f(_window.getSize().x,_window.getSize().y/2);
-	floor[2].color = sf::Color::Red;
+	floor[2].color = sf::Color::Green;
 
 	
 	
 	floor[3].position = sf::Vector2f(_window.getSize().x, _window.getSize().y);
-	floor[3].color = sf::Color::Red;
+	floor[3].color = sf::Color::Green;
 
 	
 	

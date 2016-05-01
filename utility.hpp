@@ -10,8 +10,8 @@
 #include <string>
 
 
-bool loadFromFile(std::vector<std::vector<int>>& labyrinth, std::string labName="labyrinth.txt");
-//void show(const std::vector<std::vector<int>>& labyrinth);
+bool loadFromFile(std::vector<std::vector<int>>& labyrinth, const unsigned int labNum=1);
+void show(const std::vector<std::vector<int>>& labyrinth);
 
 
 

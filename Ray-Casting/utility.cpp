@@ -6,6 +6,7 @@
 //
 
 #include "utility.hpp"
+#include "ResourcePath.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -34,7 +35,7 @@ int sizeOfBlock{64};
 
 
 
-bool loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
+bool loadFromFile(std::vector<std::vector<int>>& labyrinth,const unsigned int labNum){
 	
 	/*
 	 
@@ -51,11 +52,14 @@ bool loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 	 1 = wall
 	 
 	 */
+	std::string extension{".txt"};
+	std::ifstream labFile{};
 	
-		std::ifstream labFile{};
-		labFile.open("/Users/joris/Documents/release/labyrinth.txt");
+	labFile.open(resourcePath() + "lab" + std::to_string(labNum) + extension);
 		std::string line{};
 		size_t count{0};
+	
+	
 		if(labFile.is_open()){
 			
 			while (std::getline(labFile,line)) {
@@ -77,21 +81,27 @@ bool loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 				}
 				++count;
 			}
-			
+			return true;
+		}
+	
+		else{
+			return false;
 		}
 	
 	
 	
 	
 }
-//void show(const std::vector<std::vector<int>>& labyrinth){
-//	
-//	for(auto& i:labyrinth){
-//		for(auto&j :i){
-//			std::cout <<j<<" ";
-//		}
-//		std::cout<<std::endl;
-//	}
-//}
-//
-//
+
+
+void show(const std::vector<std::vector<int>>& labyrinth){
+	
+	for(auto& i:labyrinth){
+		for(auto&j :i){
+			std::cout <<j<<" ";
+		}
+		std::cout<<std::endl;
+	}
+}
+
+

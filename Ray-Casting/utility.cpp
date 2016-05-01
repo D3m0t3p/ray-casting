@@ -34,7 +34,7 @@ int sizeOfBlock{64};
 
 
 
-void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
+bool loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 	
 	/*
 	 
@@ -53,7 +53,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 	 */
 	
 		std::ifstream labFile{};
-		labFile.open(labName);
+		labFile.open("/Users/joris/Documents/release/labyrinth.txt");
 		std::string line{};
 		size_t count{0};
 		if(labFile.is_open()){
@@ -81,9 +81,7 @@ void loadFromFile(std::vector<std::vector<int>>& labyrinth,std::string labName){
 		}
 	
 	
-	//show(labyrinth);
 	
-	labFile.close();
 	
 }
 //void show(const std::vector<std::vector<int>>& labyrinth){

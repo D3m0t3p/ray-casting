@@ -6,24 +6,27 @@
 //
 #include "Game.hpp"
 #include "utility.hpp"
+#include "ResourcePath.hpp"
 
 Game::Game()
 :
 	_rcEngine(),		//le paramètre donne la précision de moteur de ray-casting pas utilisé car les tables ne sont pas utilisée cf voir raycasting::creatTable()
-	_player(),
-	_lastPosMouse(),
-	actualLevel(1)
+	_player()
+
 	 //float
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel =8;
 	
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
+	
 	loadFromFile(_labyrinth);
-	_lastPosMouse = sf::Mouse::getPosition(_window);
+
+	
 	
 	
 }
+
 
 
 
@@ -31,6 +34,7 @@ void Game::run(){
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
+	
 	while (_window.isOpen()){
 		
 		processEvent();
@@ -61,9 +65,6 @@ void Game::processEvent(){
 			case sf::Event::KeyReleased:
 				handleKeyboardInput(event.key.code, false);
 				break;
-			case sf::Event::MouseMoved:
-				handleMouseInput(event);
-				break;
 			default:
 				;
 				break;
@@ -79,11 +80,9 @@ void Game::update(const sf::Time &deltaTime){
 	
 	_player.move(deltaTime);
 	
-	if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
-		_labyrinth.clear();
-		loadFromFile(_labyrinth,"level" +std::to_string(actualLevel));
-		actualLevel++;
-	}
+	//if(_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.y/64)) == 2){
+		
+	
 	
 
 }
@@ -114,15 +113,6 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	
 
 }
-void Game::handleMouseInput(sf::Event& event){
-//	if (event.type == sf::Event::MouseMoved) {
-//		auto pos = sf::Mouse::getPosition(_window);
-//		int diff = _lastPosMouse.x - pos.x;
-//		_player.angle += diff*60/static_cast<int>(_window.getSize().x)*2;
-//		_lastPosMouse = pos;
-//		
-//	}
-}
 
 
 void Game::render(){
@@ -135,7 +125,7 @@ void Game::render(){
 	
 	for (float i= _player.angle - 30 ; i < _player.angle + 30; i+= 60.0/nbRect) {
 		int blockID;
-		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID);
+		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID, RayCasting::Algo::LINEAR);
 		//distance = distance * cosf(i - _player.angle);
 		
 		if(distance == 0)
@@ -156,8 +146,12 @@ void Game::render(){
 		if(blockID ==1){
 			bar.setFillColor(sf::Color(floor(1.6*255/(distance/64)),0,0));
 		}
-		else if (blockID ==2)
+		else if (blockID ==2){
 			bar.setFillColor(sf::Color(255,255,0));
+		}
+		
+		
+		
 		
 		_window.draw(bar);
 		++barCount;

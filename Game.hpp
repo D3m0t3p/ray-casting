@@ -21,6 +21,7 @@ class Game{
 	
 	
 	
+	
 private:						//fontion membre
 	void processEvent();
 	void update(const sf::Time &deltaTime);
@@ -29,8 +30,7 @@ private:						//fontion membre
 	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);
 	void renderSky();
 	void renderFloor();
-	
-	
+		
 	
 public:
 	Game();

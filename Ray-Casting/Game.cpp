@@ -21,7 +21,7 @@ Game::Game()
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	
 	loadFromFile(_labyrinth);
-
+	
 	
 	
 	
@@ -115,12 +115,16 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	if(key == sf::Keyboard::L){
 		loadNextLevel(_levelID++);
 	}
+	if(key == sf::Keyboard::Space){
+		
+	}
 	
 
 }
 
 
 void Game::render(){
+	
 	_window.clear();
 	auto sizeWin = _window.getSize();
 	unsigned int barCount{1};
@@ -195,7 +199,7 @@ void Game::renderSky(){
 	 */
 	
 	sf::VertexArray sky{sf::Quads,4};
-	sky[0].position = sf::Vector2<float>(0,_window.getSize().y/2);
+	sky[0].position = sf::Vector2<float>(0, _window.getSize().y/2);
 	sky[0].color = sf::Color(20,20,255);
 
 	sky[1].position = sf::Vector2f(0,0);

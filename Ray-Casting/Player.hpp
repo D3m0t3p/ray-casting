@@ -10,6 +10,7 @@
 #include <cmath>
 
 
+
 class Player {
 public:	//var
 	sf::Vector2f position;
@@ -28,5 +29,6 @@ public:	//var
 public:	//function
 	Player();
 	void move(const sf::Time &deltaTime);
+	sf::Vector2f futurMove(const sf::Time &deltaTime);
 
 };

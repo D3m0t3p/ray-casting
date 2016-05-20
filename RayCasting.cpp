@@ -62,7 +62,43 @@ float RayCasting::rayCasting(sf::Vector2f& playerPosition,float angle,const std:
 	
 	}
 	else{
-		//implemente DDA algo
+
+		float d{0};
+		float incrementY;
+		
+		if((static_cast<int>(angle)%360) <180)
+			incrementY=64;
+		else
+			incrementY = -64;
+		angle = angle *_PI/180;
+		float cosAngle = cosf(angle);
+		float sinAngle = -sinf(angle);
+		 //= static_cast<int>(floor(angle))%360 <= 90 ? 64 : static_cast<int>(floor(angle))%360 > 270 ? 64 : (-64); //si regarde a droit , ajoute 64 sinon diminue de 64
+		
+
+		float incrementX = (64 - playerPosition.y)/tanf(angle)+playerPosition.x;
+		
+		float x = playerPosition.x;
+		float y = playerPosition.y;
+		while(true){
+			
+			if(labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) == 1){
+				blockID = 1;
+				return d;
+			}
+			else if (labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock))==1){
+				blockID = 2;
+				return d;
+			}
+			
+			x += incrementX * cosAngle;
+			y += incrementY * sinAngle;
+			d += sqrtf((powf(x, 2)+powf(y, 2)));
+			//std::cout<<x<<" "<<y<<"   dist: "<<d<<std::endl;
+		
+			std::cout<<incrementY<<'\n';
+		}
+		
 	}
 	
 	

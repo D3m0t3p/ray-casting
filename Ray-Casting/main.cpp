@@ -20,10 +20,18 @@
 #include "Game.hpp"
 #include "SFML/Graphics.hpp"
 #include <iostream>
+#include "ResourcePath.hpp"
 
 int main(int, char const**)
 {
 	Game gm{};
+	sf::Music _music;
+	if(!_music.openFromFile(resourcePath()+"DOOM.wav")){
+		std::cout<<"music failed\n";
+		return -1;
+	}
+	_music.play();
+	_music.setLoop(true);
 	gm.run();
 	
 	

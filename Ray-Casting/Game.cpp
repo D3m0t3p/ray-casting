@@ -12,7 +12,8 @@ Game::Game()
 :
 	_rcEngine(),
 	_player(),
-	_levelID(1)
+	_levelID(1),
+	_music()
 
 {
 	sf::ContextSettings settings;
@@ -21,23 +22,46 @@ Game::Game()
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	
 	loadFromFile(_labyrinth);
-	
+	 statPlayed = &Game::play;
 	
 	
 	
 }
 
+void Game::play(sf::Clock &clock, sf::Time timeSinceLastUpdate){
+	
+	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
+	
+	
+	
+		
+	
 
+	processEvent();
+	timeSinceLastUpdate += clock.restart();
+	
+	while (timeSinceLastUpdate > frameTime){
+		timeSinceLastUpdate -= frameTime;
+		processEvent();
+		update(frameTime);
+	}
+	render();
+}
+
+void Game::pause(sf::Clock &clock, sf::Time timeSinceLastUpdate){
+	
+}
 
 
 void Game::run(){
+	
+	
 	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
 	
 	while (_window.isOpen()){
-		
 		processEvent();
 		timeSinceLastUpdate += clock.restart();
 		
@@ -47,8 +71,12 @@ void Game::run(){
 			update(frameTime);
 		}
 		render();
-		
+			//(this->*statPlayed)(clock, timeSinceLastUpdate);
+
 	}
+	
+		
+	
 }
 void Game::processEvent(){
 	
@@ -84,9 +112,19 @@ void Game::update(const sf::Time &deltaTime){
 		loadNextLevel(++_levelID);
 		_player.position = sf::Vector2f(100,100);
 
-		std::cout <<"exit";
+		 show(_labyrinth);std::cout<<"\n\n\n\n";
+	 }
+	//std::cout<<_player.position.x <<" "<<_player.position.y<<std::endl;
+	auto posi = _player.futurMove(deltaTime);
+	if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64))== 0){
+		_player.move(deltaTime);
 	}
-	_player.move(deltaTime);
+	else if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64))== 2){
+		_player.move(deltaTime);
+	}
+	else{
+
+	}
 	
 	
 
@@ -156,7 +194,7 @@ void Game::render(){
 			bar.setFillColor(sf::Color(floor(1.6*255/(distance/64)),0,0));
 		}
 		else if (blockID ==2){
-			bar.setFillColor(sf::Color(255,255,0));
+			bar.setFillColor(sf::Color(204,127,49));
 		}
 		
 		

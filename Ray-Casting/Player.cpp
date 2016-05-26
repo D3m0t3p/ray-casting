@@ -8,7 +8,7 @@
 
 Player::Player():
 	position(416,416),
-	speed(50.0),
+	speed(75.0),
 	angle(0),
 	isMovingUp(false),
 	isMovingDown(false),

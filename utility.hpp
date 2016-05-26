@@ -10,7 +10,7 @@
 #include <string>
 
 
-bool loadFromFile(std::vector<std::vector<int>>& labyrinth, const unsigned int labNum=1);
+bool load_from_file(std::vector<std::vector<int>>& labyrinth, const unsigned int labNum=1);
 void show(const std::vector<std::vector<int>>& labyrinth);
 
 

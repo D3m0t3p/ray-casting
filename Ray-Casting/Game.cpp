@@ -13,7 +13,8 @@ Game::Game()
 	_rcEngine(),
 	_player(),
 	_levelID(1),
-	_music()
+	_music(),
+	_algo(RayCasting::Algo::DDA)
 
 {
 	sf::ContextSettings settings;
@@ -21,7 +22,7 @@ Game::Game()
 	
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	
-	loadFromFile(_labyrinth);
+	load_from_file(_labyrinth);
 	 statPlayed = &Game::play;
 	
 	
@@ -153,9 +154,18 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	if(key == sf::Keyboard::L){
 		loadNextLevel(_levelID++);
 	}
+	if (key ==sf::Keyboard::P) {
+		loadNextLevel(_levelID--);
+	}
 	if(key == sf::Keyboard::Space){
 		
 	}
+	if(key == sf::Keyboard::T){
+		_algo = (_algo == RayCasting::Algo::LINEAR) ? RayCasting::Algo::DDA : RayCasting::Algo::LINEAR;
+		std::cout <<"changes perspective\n";
+		
+	}
+		
 	
 
 }
@@ -172,7 +182,7 @@ void Game::render(){
 	
 	for (float i= _player.angle - 30 ; i < _player.angle + 30; i+= 60.0/nbRect) {
 		int blockID;
-		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID, RayCasting::Algo::LINEAR);
+		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID, _algo);
 		//distance = distance * cosf(i - _player.angle);
 		
 		if(distance == 0)
@@ -215,7 +225,7 @@ void Game::render(){
 
 void Game::loadNextLevel(const unsigned int levelID){
 	_labyrinth.clear();
-	loadFromFile(_labyrinth,levelID);
+	load_from_file(_labyrinth,levelID);
 	
 }
 

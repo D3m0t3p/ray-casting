@@ -21,6 +21,7 @@ class Game{
 	unsigned int _levelID;
 	std::vector<std::vector<int>> _labyrinth;
 	void (Game:: *statPlayed)(sf::Clock &clock, sf::Time timeSinceLastUpdate);
+	RayCasting::Algo _algo;
 	
 	
 	

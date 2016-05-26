@@ -14,8 +14,8 @@
 
 
 int sizeOfBlock{64};
-//std::array< std::array<int, g_preMakeLabSize>, g_preMakeLabSize> preMakeLab {
-//	
+
+
 //	{
 //		{1,1,1,1,1,1,1,1,1,1},
 //		{1,0,0,0,0,0,0,0,0,1},
@@ -27,15 +27,15 @@ int sizeOfBlock{64};
 //		{1,0,0,0,0,0,0,0,0,1},
 //		{1,0,0,0,0,0,0,0,0,1},
 //		{1,1,1,1,1,1,1,1,1,1}
+//
 //	}
-//};
 
 
 
 
 
 
-bool loadFromFile(std::vector<std::vector<int>>& labyrinth,const unsigned int labNum){
+bool load_from_file(std::vector<std::vector<int>>& labyrinth,const unsigned int labNum){
 	
 	/*
 	 

@@ -144,9 +144,12 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 	//#########angle##############
 	if(key == sf::Keyboard::Left){
 		_player.angle += 3;
+		std::cout<<_player.angle<<'\n';
+
 	}
 	if(key == sf::Keyboard::Right){
 		_player.angle -= 3;
+		std::cout<<_player.angle<<'\n';
 	}
 	if(key == sf::Keyboard::Up)		_player.speed++;
 	if(key == sf::Keyboard::Down)	_player.speed--;
@@ -186,7 +189,7 @@ void Game::render(){
 		//distance = distance * cosf(i - _player.angle);
 		
 		if(distance == 0)
-			distance +=1;
+			distance +=0.1f;
 		
 		
 		

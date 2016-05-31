@@ -28,6 +28,6 @@ public:
 private:
 	sf::Vector2f computeLineCoo(const sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth) const;
 	
-	sf::Vector2f computeColumnCoo(const sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth) const;
+	sf::Vector2f computeColumnCoo(const sf::Vector2f& position, float angle, const std::vector<std::vector<int>>& labyrinth) const;
 	
 };

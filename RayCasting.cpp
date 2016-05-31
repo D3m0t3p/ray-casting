@@ -8,6 +8,7 @@
 #include "RayCasting.hpp"
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 															//definit dans utility.cpp
 extern int sizeOfBlock;														//pareil
 
@@ -20,14 +21,14 @@ RayCasting::RayCasting():
 }
 sf::Vector2f RayCasting::computeLineCoo(const sf::Vector2f &position, float angle, const std::vector<std::vector<int> > &labyrinth) const{
 	
-	angle = angle * _PI / 180;
 	float x = position.x;
 	float y = position.y;
 	sf::Vector2f A;
 	
-	if(static_cast<int>(floor(angle))%360 <180){  //[0; π]
-		
-		A.y = floor( (x/sizeOfBlock) * 64 -1);
+	if(std::abs(static_cast<int>(floor(angle))%360) <180){  //[0; π]
+		angle = angle * _PI / 180;
+
+		A.y = floor( x/sizeOfBlock) * 64 - 1;
 		A.x = x + ((y-A.y) / tanf(angle));
 		while (true) {
 			if(labyrinth.at(floor(A.x/sizeOfBlock)).at(floor(A.y/sizeOfBlock)) != 0){
@@ -40,8 +41,9 @@ sf::Vector2f RayCasting::computeLineCoo(const sf::Vector2f &position, float angl
 		}
 	}
 	else{	// ]π; 2π[
+		angle = angle * _PI / 180;
 		A.y = floor(x/64)*64+64;
-		A.x = x + ((y-A.y)/tan(angle));
+		A.x = x + ((A.y - y)/tan(angle));
 		
 		while (true) {
 			if(labyrinth.at(A.x/sizeOfBlock).at(A.y/sizeOfBlock) != 0){
@@ -57,43 +59,48 @@ sf::Vector2f RayCasting::computeLineCoo(const sf::Vector2f &position, float angl
 
 sf::Vector2f RayCasting::computeColumnCoo(const sf::Vector2f &position, float angle, const std::vector<std::vector<int> > &labyrinth) const {
 	
-	angle = angle * _PI / 180;
+	auto radTanAngle = tan(angle*_PI/180);
 	float x = position.x;
 	float y = position.y;
 	sf::Vector2f A;
 	
-	if(static_cast<int>(floor(angle))%360 >270 && static_cast<int>(floor(angle)) % 360 <90){	//angle [270;0] U ]0;90]
-		A.x = floor(x/sizeOfBlock)*sizeOfBlock+sizeOfBlock;
-		A.y = y - tan(angle) *(A.x - x);
+	if(std::abs(static_cast<int>(floor(angle))%360) > 270 && std::abs(static_cast<int>(floor(angle)) % 360) <90){	//
+		//angle [270;360] U [0;90]
+		angle = angle * _PI / 180;
+		A.x = floor(x/sizeOfBlock)*sizeOfBlock + sizeOfBlock;
+		A.y = y - radTanAngle * (A.x - x);
 		
-		while (true) {
-//			if(labyrinth.at(floor(A.y/sizeOfBlock)).at(floor(A.x/sizeOfBlock)) != 0){
-//				return sf::Vector2f(A.x, A.y);
-//			}
-			
-			A.x += 64;
-			A.y += tan(angle) * 64;
-		}
-	}
-	else{	//angle 90 < angle <270
-		A.x = floor(x/64) * 64 - 1;
-		A.y = y - tan(angle) * (A.x - x);
 		while (true) {
 			if(labyrinth.at(floor(A.y/sizeOfBlock)).at(floor(A.x/sizeOfBlock)) != 0){
 				return sf::Vector2f(A.x, A.y);
 			}
 			
-			A.x -= 64;
-			A.y += tan(angle) * 64;
+			A.x += 64;
+			A.y += radTanAngle * 64;
 		}
 	}
-}
+	else{	//angle 90 < angle <270
+		
+		angle = angle * _PI / 180;
+		A.x = floor(x/64) * 64 - 1;
+		A.y = y - radTanAngle * (A.x - x);
+
+		while ( /*A.x < labyrinth.size()*64 && A.x >0 && A.y < labyrinth.size()*64 && A.y*/true) {
+			if(labyrinth.at(static_cast<size_t>(floor(A.y/sizeOfBlock))).at(static_cast<size_t>(floor(A.x/sizeOfBlock))) != 0){
+				return sf::Vector2f(A.x, A.y);
+			}
+			std::cout<<labyrinth.at(static_cast<size_t>(floor(A.y/sizeOfBlock))).at(static_cast<size_t>(floor(A.x/sizeOfBlock)))<<'\t'<< floor(A.y/64)<<" "<<floor(A.x/64)<<'\n';
+			A.x -= 64;								// - car le repère est	 --->x
+			A.y += radTanAngle * 64;
+													//					   y|
+		}											//						|
+	}												//						V
+}													//
 
 //calcule la distance depius un certaine position avec un cerain angle jusque au mur le plus proche
 //retourn la distance jusque au mur
 
 float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,int &blockID, const Algo algo) const{
-	
 	float x = playerPosition.x;
 	float y = playerPosition.y;
 
@@ -129,11 +136,12 @@ float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,cons
 	
 	}
 	else{		//DDA algo
-		auto line = computeLineCoo(playerPosition, angle, labyrinth);
+		//auto line = computeLineCoo(playerPosition, angle, labyrinth);
 		auto column = computeColumnCoo(playerPosition, angle, labyrinth);
 		
 		//float distanceLine = sqrtf( powf(line.x - x, 2) + pow(line.y - y,2));
-		float distanceColumn = sqrtf( powf(line.x - x, 2) + pow(line.y - y,2));
+		//float distanceColumn = sqrtf( powf(column.x - x, 2) + pow(column.y - y,2));
+		
 //		float dist;
 //		
 //		if(distanceColumn < distanceLine){
@@ -151,7 +159,7 @@ float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,cons
 //			else
 //				blockID = 2;
 //		}
-//		return dist;
+		return 0;
 	}
 	
 	

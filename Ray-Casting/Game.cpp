@@ -23,36 +23,74 @@ Game::Game()
 	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
 	
 	load_from_file(_labyrinth);
-	 statPlayed = &Game::play;
+	 statPlayed = &Game::pause;
 	
 	
 	
 }
 
-void Game::play(sf::Clock &clock, sf::Time timeSinceLastUpdate){
+
+
+void Game::play(sf::Clock &clock, sf::Time& timeSinceLastUpdate){
 	
 	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
 	
-	
-	
-		
-	
-
-	processEvent();
+	processPlayEvent();
 	timeSinceLastUpdate += clock.restart();
 	
 	while (timeSinceLastUpdate > frameTime){
 		timeSinceLastUpdate -= frameTime;
-		processEvent();
+		processPlayEvent();
 		update(frameTime);
 	}
 	render();
 }
 
-void Game::pause(sf::Clock &clock, sf::Time timeSinceLastUpdate){
+
+
+void Game::pause(sf::Clock &clock, sf::Time& timeSinceLastUpdate){
+	handlePauseEvent();
 	
+	_window.clear(sf::Color::Black);
+	renderPause();
+	_window.display();
 }
 
+void Game::renderPause(){
+	_window.clear();
+	sf::Font font;
+	if(!font.loadFromFile(resourcePath()+"arial.ttf"))
+		return;
+	sf::Text txt;
+	txt.setFont(font);
+	txt.setCharacterSize(50);
+	txt.setString("Pause");
+	_window.draw(txt);
+	_window.display();
+	
+}
+void Game::handlePauseEvent(){
+	
+	sf::Event event;
+	
+	while (_window.pollEvent(event)) {
+		switch(event.type){
+				
+			case sf::Event::EventType::KeyPressed :
+				
+				if(event.key.code == sf::Keyboard::Key::Escape){
+					statPlayed = &Game::play;
+				}
+				break;
+			case sf::Event::EventType::KeyReleased:
+				handleKeyboardInput(event.key.code, false);
+			default:
+				
+				;
+				break;
+		}
+	}
+}
 
 void Game::run(){
 	
@@ -60,26 +98,17 @@ void Game::run(){
 	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
 	
 	while (_window.isOpen()){
-		processEvent();
-		timeSinceLastUpdate += clock.restart();
 		
-		while (timeSinceLastUpdate > frameTime){
-			timeSinceLastUpdate -= frameTime;
-			processEvent();
-			update(frameTime);
-		}
-		render();
-			//(this->*statPlayed)(clock, timeSinceLastUpdate);
+			(this->*statPlayed)(clock, timeSinceLastUpdate);
 
 	}
 	
 		
 	
 }
-void Game::processEvent(){
+void Game::processPlayEvent(){
 	
 	sf::Event event{};
 	while (_window.pollEvent(event)) {
@@ -94,6 +123,9 @@ void Game::processEvent(){
 				break;
 			case sf::Event::KeyReleased:
 				handleKeyboardInput(event.key.code, false);
+				break;
+			case sf::Event::Resized:
+				std::cout<< event.size.width<<" "<<event.size.height<<'\n';
 				break;
 			default:
 				;
@@ -151,23 +183,25 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 		_player.angle -= 3;
 		std::cout<<_player.angle<<'\n';
 	}
-	if(key == sf::Keyboard::Up)		_player.speed++;
-	if(key == sf::Keyboard::Down)	_player.speed--;
+	if(key == sf::Keyboard::Up)		_player.speed+=3;
+	if(key == sf::Keyboard::Down)	_player.speed-=3;
 	
-	if(key == sf::Keyboard::L){
+	if(key == sf::Keyboard::N){
 		loadNextLevel(_levelID++);
 	}
 	if (key ==sf::Keyboard::P) {
 		loadNextLevel(_levelID--);
 	}
-	if(key == sf::Keyboard::Space){
-		
+	if(key == sf::Keyboard::Escape && isPressed){
+		statPlayed = &Game::pause;
 	}
-	if(key == sf::Keyboard::T){
+	if(key == sf::Keyboard::T && isPressed){
 		_algo = (_algo == RayCasting::Algo::LINEAR) ? RayCasting::Algo::DDA : RayCasting::Algo::LINEAR;
-		std::cout <<"changes perspective\n";
+		std::cout <<"changes algo\n";
 		
 	}
+	
+	
 		
 	
 

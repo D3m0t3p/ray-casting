@@ -20,22 +20,26 @@ class Game{
 	Player _player;
 	unsigned int _levelID;
 	std::vector<std::vector<int>> _labyrinth;
-	void (Game:: *statPlayed)(sf::Clock &clock, sf::Time timeSinceLastUpdate);
+	void (Game:: *statPlayed)(sf::Clock &clock, sf::Time& timeSinceLastUpdate);
 	RayCasting::Algo _algo;
 	
 	
 	
 	
 private:						//fontion membre
-	void processEvent();
+	void processPlayEvent();
 	void update(const sf::Time &deltaTime);
 	void render();
 	void loadNextLevel(const unsigned int levelID);
 	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);
 	void renderSky();
 	void renderFloor();
-	void play(sf::Clock &clock,sf::Time timeSinceLastUpdate );
-	void pause(sf::Clock &clock,sf::Time timeSinceLastUpdate);
+	void play(sf::Clock &clock,sf::Time& timeSinceLastUpdate );
+	
+	
+	void pause(sf::Clock &clock,sf::Time& timeSinceLastUpdate);
+	void handlePauseEvent();
+	void renderPause();
 	
 public:
 	Game();

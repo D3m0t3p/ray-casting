@@ -89,7 +89,7 @@ sf::Vector2f RayCasting::computeColumnCoo(const sf::Vector2f &position, float an
 			if(labyrinth.at(static_cast<size_t>(floor(A.y/sizeOfBlock))).at(static_cast<size_t>(floor(A.x/sizeOfBlock))) != 0){
 				return sf::Vector2f(A.x, A.y);
 			}
-			std::cout<<labyrinth.at(static_cast<size_t>(floor(A.y/sizeOfBlock))).at(static_cast<size_t>(floor(A.x/sizeOfBlock)))<<'\t'<< floor(A.y/64)<<" "<<floor(A.x/64)<<'\n';
+			
 			A.x -= 64;								// - car le repère est	 --->x
 			A.y += radTanAngle * 64;
 													//					   y|
@@ -140,8 +140,8 @@ float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,cons
 		auto column = computeColumnCoo(playerPosition, angle, labyrinth);
 		
 		//float distanceLine = sqrtf( powf(line.x - x, 2) + pow(line.y - y,2));
-		//float distanceColumn = sqrtf( powf(column.x - x, 2) + pow(column.y - y,2));
-		
+		float distanceColumn = sqrtf( powf(column.x - x, 2) + pow(column.y - y,2));
+		return distanceColumn;
 //		float dist;
 //		
 //		if(distanceColumn < distanceLine){

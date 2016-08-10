@@ -46,7 +46,7 @@ sf::Vector2f RayCasting::computeLineCoo(const sf::Vector2f &position, float angl
 		A.x = x + ((A.y - y)/tan(angle));
 		
 		while (true) {
-			if(labyrinth.at(A.x/sizeOfBlock).at(A.y/sizeOfBlock) != 0){
+			if(labyrinth.at(floor(A.x/sizeOfBlock)).at(floor(A.y/sizeOfBlock)) != 0){
 				return sf::Vector2f(A.x, A.y);
 				
 			}
@@ -59,12 +59,12 @@ sf::Vector2f RayCasting::computeLineCoo(const sf::Vector2f &position, float angl
 
 sf::Vector2f RayCasting::computeColumnCoo(const sf::Vector2f &position, float angle, const std::vector<std::vector<int> > &labyrinth) const {
 	
-	auto radTanAngle = tan(angle*_PI/180);
+	auto radTanAngle = -tan(angle*_PI/180);
 	float x = position.x;
 	float y = position.y;
 	sf::Vector2f A;
 	
-	if(std::abs(static_cast<int>(floor(angle))%360) > 270 && std::abs(static_cast<int>(floor(angle)) % 360) <90){	//
+	if(std::abs(static_cast<int>(floor(angle))%360) > 270 || std::abs(static_cast<int>(floor(angle)) % 360) <90){	//
 		//angle [270;360] U [0;90]
 		angle = angle * _PI / 180;
 		A.x = floor(x/sizeOfBlock)*sizeOfBlock + sizeOfBlock;

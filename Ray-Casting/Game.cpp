@@ -14,7 +14,7 @@ Game::Game()
 	_player(),
 	_levelID(1),
 	_music(),
-	_algo(RayCasting::Algo::DDA)
+	_algo(RayCasting::Algo::LINEAR)
 
 {
 	sf::ContextSettings settings;
@@ -147,17 +147,11 @@ void Game::update(const sf::Time &deltaTime){
 
 		 show(_labyrinth);std::cout<<"\n\n\n\n";
 	 }
-	//std::cout<<_player.position.x <<" "<<_player.position.y<<std::endl;
 	auto posi = _player.futurMove(deltaTime);
-	if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64))== 0){
+	if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64)) != 1){
 		_player.move(deltaTime);
 	}
-	else if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64))== 2){
-		_player.move(deltaTime);
-	}
-	else{
-
-	}
+	
 	
 	
 
@@ -200,6 +194,8 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 		std::cout <<"changes algo\n";
 		
 	}
+	if(key == sf::Keyboard::H)
+		std::cout<< _player.position.x<<" "<<_player.position.y<<"\t|\t"<< _player.angle<<'\n';
 	
 	
 		
@@ -227,7 +223,7 @@ void Game::render(){
 		
 		
 		
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) * _window.getSize().x/(2*tanf(3.1415*30/180)))};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) */*692*/ _window.getSize().x/(2*tanf(3.1415*30/180)))};	//cstr prends la taille de l'objet comme argument
 		
 		
 		/*
@@ -243,7 +239,6 @@ void Game::render(){
 		else if (blockID ==2){
 			bar.setFillColor(sf::Color(204,127,49));
 		}
-		
 		
 		
 		

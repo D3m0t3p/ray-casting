@@ -14,15 +14,16 @@ Game::Game()
 	_player(),
 	_levelID(1),
 	_music(),
-	_algo(RayCasting::Algo::LINEAR)
+	_algo(RayCasting::Algo::LINEAR),
+	_deadLine()
 
 {
 	sf::ContextSettings settings;
 	settings.antialiasingLevel =8;
 	
-	_window.create(sf::VideoMode(800,600), "Ray-Casting",sf::Style::Default,settings);
+	_window.create(sf::VideoMode(1200,900), "Ray-Casting",sf::Style::Default,settings);
 	
-	load_from_file(_labyrinth);
+	load_from_file(_labyrinth,1);
 	 statPlayed = &Game::pause;
 	
 	
@@ -32,8 +33,9 @@ Game::Game()
 
 
 void Game::play(sf::Clock &clock, sf::Time& timeSinceLastUpdate){
+
 	
-	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60));
+	const sf::Time frameTime = sf::seconds(static_cast<float>(1.0/60.0));
 	
 	processPlayEvent();
 	timeSinceLastUpdate += clock.restart();
@@ -44,6 +46,9 @@ void Game::play(sf::Clock &clock, sf::Time& timeSinceLastUpdate){
 		update(frameTime);
 	}
 	render();
+	
+	_deadLine -= sf::seconds(1.0/60);
+	
 }
 
 
@@ -64,7 +69,9 @@ void Game::renderPause(){
 	sf::Text txt;
 	txt.setFont(font);
 	txt.setCharacterSize(50);
+	txt.setPosition(_window.getSize().x/2 -txt.getGlobalBounds().width, _window.getSize().y/2 -txt.getGlobalBounds().height);
 	txt.setString("Pause");
+	
 	_window.draw(txt);
 	_window.display();
 	
@@ -94,7 +101,7 @@ void Game::handlePauseEvent(){
 
 void Game::run(){
 	
-	
+	_deadLine = sf::seconds(60);
 	
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -142,7 +149,7 @@ void Game::update(const sf::Time &deltaTime){
 	
 	
 	 if (_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.x/64)) ==2){
-		loadNextLevel(++_levelID);
+		loadLevel(++_levelID);
 		_player.position = sf::Vector2f(100,100);
 
 		 show(_labyrinth);std::cout<<"\n\n\n\n";
@@ -151,6 +158,7 @@ void Game::update(const sf::Time &deltaTime){
 	if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64)) != 1){
 		_player.move(deltaTime);
 	}
+	
 	
 	
 	
@@ -177,23 +185,46 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 		_player.angle -= 3;
 		std::cout<<_player.angle<<'\n';
 	}
+	
+	//########	speed	#######
 	if(key == sf::Keyboard::Up)		_player.speed+=3;
 	if(key == sf::Keyboard::Down)	_player.speed-=3;
 	
+	
+	
 	if(key == sf::Keyboard::N){
-		loadNextLevel(_levelID++);
+		
+		if(_levelID != 5)
+			loadLevel(++_levelID);
+		
 	}
-	if (key ==sf::Keyboard::P) {
-		loadNextLevel(_levelID--);
+	
+	if(key == sf::Keyboard::Key::L){
+		
+		loadLevel(_levelID);
+	}
+	
+	if (key == sf::Keyboard::P) {
+		if(_levelID != 1)
+			loadLevel(--_levelID);
+		std::cout<<_levelID<<'\n';
+
 	}
 	if(key == sf::Keyboard::Escape && isPressed){
 		statPlayed = &Game::pause;
 	}
-	if(key == sf::Keyboard::T && isPressed){
+	if(key == sf::Keyboard::Space && isPressed){
 		_algo = (_algo == RayCasting::Algo::LINEAR) ? RayCasting::Algo::DDA : RayCasting::Algo::LINEAR;
 		std::cout <<"changes algo\n";
 		
 	}
+	
+	if(key == sf::Keyboard::Key::T){
+		_deadLine.asSeconds() < 0 ? _deadLine = sf::seconds(10) : _deadLine += sf::seconds(10);
+	}
+	if(key == sf::Keyboard::Key::G)
+		_deadLine -= sf::seconds(10);
+		
 	if(key == sf::Keyboard::H)
 		std::cout<< _player.position.x<<" "<<_player.position.y<<"\t|\t"<< _player.angle<<'\n';
 	
@@ -205,6 +236,13 @@ void Game::handleKeyboardInput(sf::Keyboard::Key key, bool isPressed){
 
 
 void Game::render(){
+	sf::Font font;
+	if(!font.loadFromFile(resourcePath()+"arial.ttf"))
+		return;
+	sf::Text txt;
+	txt.setFont(font);
+	txt.setCharacterSize(25);
+	_deadLine.asSeconds() <= 0 ? txt.setString("Time's up !") : txt.setString (std::to_string(static_cast<int>(_deadLine.asSeconds()))) ;
 	
 	_window.clear();
 	auto sizeWin = _window.getSize();
@@ -218,12 +256,13 @@ void Game::render(){
 		float distance = _rcEngine.rayCasting(_player.position, i, _labyrinth, blockID, _algo);
 		//distance = distance * cosf(i - _player.angle);
 		
-		if(distance == 0)
-			distance +=0.1f;
+		if(distance < 2){
+			distance +=1.1f;
+			std::cout <<"distance corrigée";
+		}
+		distance *= cosf((i- _player.angle) * 3.141592/180);	//correct fish-eyes
 		
-		
-		
-		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) */*692*/ _window.getSize().x/(2*tanf(3.1415*30/180)))};	//cstr prends la taille de l'objet comme argument
+		sf::RectangleShape bar{sf::Vector2f( sizeWin.x/nbRect , (64/distance) */*692*/ _window.getSize().x/(2*tanf(30*3.1415/180)))};	//cstr prends la taille de l'objet comme argument
 		
 		
 		/*
@@ -234,15 +273,18 @@ void Game::render(){
 		
 		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
 		if(blockID ==1){
-			bar.setFillColor(sf::Color(floor(1.6*255/(distance/64)),0,0));
+			bar.setFillColor(sf::Color(static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)),0,0));
+			//std::cout <<static_cast<sf::Uint8>(floor((1.6*255.0)/(distance)*64));
 		}
 		else if (blockID ==2){
 			bar.setFillColor(sf::Color(204,127,49));
+			
 		}
 		
 		
 		
 		_window.draw(bar);
+		_window.draw(txt);
 		++barCount;
 		
 		
@@ -255,9 +297,15 @@ void Game::render(){
 
 
 
-void Game::loadNextLevel(const unsigned int levelID){
+void Game::loadLevel(const unsigned int levelID){
+	
+	
 	_labyrinth.clear();
 	load_from_file(_labyrinth,levelID);
+	show(_labyrinth);
+	std::cout << "\nlevel "<<levelID << "loaded";
+	
+	_deadLine = sf::seconds(60);
 	
 }
 

@@ -88,9 +88,7 @@ bool load_from_file(std::vector<std::vector<int>>& labyrinth,const unsigned int 
 			return false;
 		}
 	
-	
-	
-	
+
 }
 
 

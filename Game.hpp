@@ -30,7 +30,7 @@ private:						//fontion membre
 	void processPlayEvent();
 	void update(const sf::Time &deltaTime);
 	void render();
-	void loadNextLevel(const unsigned int levelID);
+	void loadLevel(const unsigned int levelID);
 	void handleKeyboardInput(sf::Keyboard::Key key, bool isPressed);
 	void renderSky();
 	void renderFloor();
@@ -40,6 +40,8 @@ private:						//fontion membre
 	void pause(sf::Clock &clock,sf::Time& timeSinceLastUpdate);
 	void handlePauseEvent();
 	void renderPause();
+
+	sf::Time _deadLine;
 	
 public:
 	Game();

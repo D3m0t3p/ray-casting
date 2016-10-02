@@ -24,7 +24,7 @@ public:
 	
 public:
 	RayCasting();
-	float rayCasting(const sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth,int &blockID, const Algo algo)const;	//retourn la distance jusque au mur rencontré
+	float rayCasting(const sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,int &blockID, sf::Vector2f& hitPosition, const Algo algo)const;	//retourn la distance jusque au mur rencontré
 private:
 	sf::Vector2f computeLineCoo(const sf::Vector2f& position,float angle, const std::vector<std::vector<int>>& labyrinth) const;
 	

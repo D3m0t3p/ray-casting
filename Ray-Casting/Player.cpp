@@ -7,9 +7,9 @@
 #include "Player.hpp"
 
 Player::Player():
-	position(520,520),
+	position(70,600),
 	speed(75.0),
-	angle(126),
+	angle(0),
 	isMovingUp(false),
 	isMovingDown(false),
 	isMovingRight(false),
@@ -47,7 +47,7 @@ void Player::move(const sf::Time &deltaTime){
 
 
 sf::Vector2f Player::futurMove(const sf::Time &deltaTime){
-	float x,y;
+	double x,y;
 	x = position.x;
 	y=position.y;
 	if(isMovingDown){									//DOWN

@@ -100,7 +100,7 @@ sf::Vector2f RayCasting::computeColumnCoo(const sf::Vector2f &position, float an
 //calcule la distance depius un certaine position avec un cerain angle jusque au mur le plus proche
 //retourn la distance jusque au mur
 
-float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,int &blockID, const Algo algo) const{
+float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,const std::vector<std::vector<int>> &labyrinth,int &blockID, sf::Vector2f& hitPosition, const Algo algo) const{
 	float x = playerPosition.x;
 	float y = playerPosition.y;
 
@@ -114,16 +114,20 @@ float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,cons
 			try {
 				if(labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) == 1){
 					blockID = 1;
+					hitPosition.x = x;
+					hitPosition.y = y;
 					return d;	//return distance au mur
 				}
 				else if (labyrinth.at(floor(y/sizeOfBlock)).at(floor(x/sizeOfBlock)) ==2){
 					blockID = 2;
+					hitPosition.x = x;
+					hitPosition.y = y;
 					return d;
 				}
 				
-				x += 2*cosAngle;
-				y += 2*sinAngle;
-				d += 2;		//simplification de l'equation de pythagor
+				x += 0.5*cosAngle;
+				y += 0.5*sinAngle;
+				d += 0.5;		//simplification de l'equation de pythagor
 				
 				
 			} catch (std::out_of_range& ec) {

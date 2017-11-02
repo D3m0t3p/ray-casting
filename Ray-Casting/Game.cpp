@@ -149,11 +149,13 @@ void Game::update(const sf::Time &deltaTime){
 	
 	
 	 if (_labyrinth.at(floor(_player.position.y/64)).at(floor(_player.position.x/64)) ==2){
-		loadLevel(++_levelID);
-		_player.position = sf::Vector2f(100,100);
-		 _player.angle = 360;
-
-		 show(_labyrinth);std::cout<<"\n\n\n\n";
+		 if(_levelID != 4){
+			 loadLevel(_levelID++);
+			 _player.position = sf::Vector2f(100,100);
+			 _player.angle = 360;
+			 
+		 }
+		
 	 }
 	auto posi = _player.futurMove(deltaTime);
 	if(_labyrinth.at(floor(posi.y/64)).at(floor(posi.x/64)) != 1){
@@ -275,12 +277,11 @@ void Game::render(){
 		bar.setPosition((nbRect-barCount)* sizeWin.x/nbRect, sizeWin.y/2 - bar.getSize().y/2);
 		if(blockID ==1){
 			bar.setFillColor(sf::Color(
-									   static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)) >=sf::Uint8(250) ? 250:static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)),
+									   static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)) < 0 || static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)) > 255 ? 250:static_cast<sf::Uint8>(floor(((1.6*255.0)/distance)*64)),
 									   0,
 									   0));
 			
 			
-			std::cout <<static_cast<sf::Uint8>(floor((1.6*255.0)/(distance)*64))<<'\n';
 		}
 		else if (blockID ==2){
 			bar.setFillColor(sf::Color(204,127,49));
@@ -306,13 +307,15 @@ void Game::render(){
 
 void Game::loadLevel(const unsigned int levelID){
 	
-	if(levelID == 5 or levelID == 0)
+	if(_levelID == 5 or levelID == 0 or levelID == 5 or _levelID == 0){
 		return;
+	
+		
+	}
 	
 	_labyrinth.clear();
 	load_from_file(_labyrinth,levelID);
 	show(_labyrinth);
-	std::cout << "\nlevel "<<levelID << "loaded";
 	
 	_deadLine = sf::seconds(60);
 	

@@ -125,9 +125,9 @@ float RayCasting::rayCasting(const sf::Vector2f& playerPosition,float angle,cons
 					return d;
 				}
 				
-				x += 0.5*cosAngle;
-				y += 0.5*sinAngle;
-				d += 0.5;		//simplification de l'equation de pythagor
+				x += 2*cosAngle;
+				y += 2*sinAngle;
+				d += 2;		//simplification de l'equation de pythagor
 				
 				
 			} catch (std::out_of_range& ec) {

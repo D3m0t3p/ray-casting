@@ -315,6 +315,7 @@ void Game::loadLevel(const unsigned int levelID){
 	
 	_labyrinth.clear();
 	load_from_file(_labyrinth,levelID);
+	std::cout << "\n\n" << levelID << '\n';
 	show(_labyrinth);
 	
 	_deadLine = sf::seconds(60);
